@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -95,7 +95,7 @@ namespace Prova
             Console.WriteLine("=== Classi Disponibili ===");
             foreach (var classe in classi)
             {
-                Console.WriteLine($"ID: {classe.IDClasse} Nome: {classe.NomeClasse}");
+                Console.WriteLine($"ID: {classe.IDClasse}; Nome: {classe.NomeClasse}");
             }
         }
 
@@ -209,7 +209,7 @@ namespace Prova
             Console.WriteLine("=== Studenti Disponibili ===");
             foreach (var studente in studenti)
             {
-                Console.WriteLine($"ID: {studente.IDStudente} Nome: {studente.Nome} Cognome: {studente.Cognome} Data di Nascita: {studente.DataNascita} Anno di Corso: {studente.AnnoCorso} Classe: {studente.NomeClasse}");
+                Console.WriteLine($"ID: {studente.IDStudente}; Nome: {studente.Nome}; Cognome: {studente.Cognome}; Data di Nascita: {studente.DataNascita}; Anno di Corso: {studente.AnnoCorso}; Classe: {studente.NomeClasse}");
             }
         }
 
@@ -327,7 +327,7 @@ namespace Prova
             Console.WriteLine("=== Insegnanti Disponibili ===");
             foreach (var insegnante in insegnanti)
             {
-                Console.WriteLine($"ID: {insegnante.IDInsegnante} Nome: {insegnante.Nome} Cognome: {insegnante.Cognome} Classe: {insegnante.NomeClasse} Materia: {insegnante.NomeMateria}");
+                Console.WriteLine($"ID: {insegnante.IDInsegnante}; Nome: {insegnante.Nome}; Cognome: {insegnante.Cognome}; Classe: {insegnante.NomeClasse}; Materia: {insegnante.NomeMateria}");
             }
         }
 
@@ -444,7 +444,7 @@ namespace Prova
             Console.WriteLine("=== Valutazioni Disponibili ===");
             foreach (var valutazione in valutazioni)
             {
-                Console.WriteLine($"ID: {valutazione.IDValutazione} Voto: {valutazione.Voto} Media: {valutazione.Media} ID-Materia: {valutazione.IDMateria} ID-Studente: {valutazione.IDStudente}");
+                Console.WriteLine($"ID: {valutazione.IDValutazione}; Voto: {valutazione.Voto}; Media: {valutazione.Media}; ID-Materia: {valutazione.IDMateria}; ID-Studente: {valutazione.IDStudente}");
             }
         }
 
