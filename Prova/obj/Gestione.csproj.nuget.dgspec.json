@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\User16_12_1\\Documents\\Prova\\Prova.csproj": {}
+    "C:\\Users\\User16_12_1\\Documents\\Prova\\Gestione.csproj": {}
   },
   "projects": {
-    "C:\\Users\\User16_12_1\\Documents\\Prova\\Prova.csproj": {
+    "C:\\Users\\User16_12_1\\Documents\\Prova\\Gestione.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\User16_12_1\\Documents\\Prova\\Prova.csproj",
-        "projectName": "Prova",
-        "projectPath": "C:\\Users\\User16_12_1\\Documents\\Prova\\Prova.csproj",
+        "projectUniqueName": "C:\\Users\\User16_12_1\\Documents\\Prova\\Gestione.csproj",
+        "projectName": "Gestione",
+        "projectPath": "C:\\Users\\User16_12_1\\Documents\\Prova\\Gestione.csproj",
         "packagesPath": "C:\\Users\\User16_12_1\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\User16_12_1\\Documents\\Prova\\obj\\",
         "projectStyle": "PackageReference",

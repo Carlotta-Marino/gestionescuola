@@ -1,0 +1,17 @@
+C:\Users\User16_12_1\Documents\Prova\bin\Debug\net6.0\Gestione.exe
+C:\Users\User16_12_1\Documents\Prova\bin\Debug\net6.0\Gestione.deps.json
+C:\Users\User16_12_1\Documents\Prova\bin\Debug\net6.0\Gestione.runtimeconfig.json
+C:\Users\User16_12_1\Documents\Prova\bin\Debug\net6.0\Gestione.dll
+C:\Users\User16_12_1\Documents\Prova\bin\Debug\net6.0\Gestione.pdb
+C:\Users\User16_12_1\Documents\Prova\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\User16_12_1\Documents\Prova\obj\Debug\net6.0\Gestione.csproj.AssemblyReference.cache
+C:\Users\User16_12_1\Documents\Prova\obj\Debug\net6.0\Gestione.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User16_12_1\Documents\Prova\obj\Debug\net6.0\Gestione.AssemblyInfoInputs.cache
+C:\Users\User16_12_1\Documents\Prova\obj\Debug\net6.0\Gestione.AssemblyInfo.cs
+C:\Users\User16_12_1\Documents\Prova\obj\Debug\net6.0\Gestione.csproj.CoreCompileInputs.cache
+C:\Users\User16_12_1\Documents\Prova\obj\Debug\net6.0\Gestione.csproj.CopyComplete
+C:\Users\User16_12_1\Documents\Prova\obj\Debug\net6.0\Gestione.dll
+C:\Users\User16_12_1\Documents\Prova\obj\Debug\net6.0\refint\Gestione.dll
+C:\Users\User16_12_1\Documents\Prova\obj\Debug\net6.0\Gestione.pdb
+C:\Users\User16_12_1\Documents\Prova\obj\Debug\net6.0\Gestione.genruntimeconfig.cache
+C:\Users\User16_12_1\Documents\Prova\obj\Debug\net6.0\ref\Gestione.dll

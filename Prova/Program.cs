@@ -1,19 +1,22 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
+using Newtonsoft.Json;
 
-namespace Prova
+namespace Gestione
 {
     internal class Program
     {
-        static string filePath = "C:\\Users\\User23_12_1\\Desktop\\Prova\\school_data.txt";
         static List<Classe> classi = new List<Classe>();
         static List<Studente> studenti = new List<Studente>();
         static List<Insegnante> insegnanti = new List<Insegnante>();
         static List<Valutazione> valutazioni = new List<Valutazione>();
+        static List<Materia> materie = new List<Materia>();
+
         static void Main(string[] args)
         {
-            LoadDataFromFile(); // Carica i dati dal file di testo
+            LoadDataFromFile(); // Carica i dati dal file JSON
 
             while (true)
             {
@@ -22,7 +25,8 @@ namespace Prova
                 Console.WriteLine("2. Gestione Studenti");
                 Console.WriteLine("3. Gestione Insegnanti");
                 Console.WriteLine("4. Gestione Valutazioni");
-                Console.WriteLine("5. Uscita");
+                Console.WriteLine("5. Gestione Materie");
+                Console.WriteLine("6. Uscita");
                 Console.WriteLine("============");
 
                 Console.Write("Seleziona un'opzione: ");
@@ -45,6 +49,9 @@ namespace Prova
                         ManageValutazioni();
                         break;
                     case "5":
+                        ManageMaterie();
+                        break;
+                    case "6":
                         SaveDataToFile();
                         return;
                     default:
@@ -102,11 +109,27 @@ namespace Prova
         static void AggiungiClasse()
         {
             Console.WriteLine("=== Aggiungi Classe ===");
-            Console.Write("Inserisci l'ID della classe: ");
-            int id = int.Parse(Console.ReadLine());
+            int id = 0;
+            bool isValidId = false;
+            while (!isValidId)
+
+            {
+                Console.Write("Inserisci l'ID della classe: ");
+                string idInput = Console.ReadLine();
+                if (int.TryParse(idInput, out id))
+                {
+                    isValidId = true;
+                }
+                else
+                {
+                    Console.WriteLine("ID non valido. Inserire un valore numerico intero");
+
+                }
+            }
+
             Console.Write("Inserisci il nome della classe: ");
             string nome = Console.ReadLine();
-            
+
 
             Classe nuovaClasse = new Classe(id, nome);
             classi.Add(nuovaClasse);
@@ -127,7 +150,7 @@ namespace Prova
                 string nome = Console.ReadLine();
 
                 classeDaModificare.NomeClasse = nome;
-                
+
 
                 Console.WriteLine("Classe modificata con successo.");
             }
@@ -217,7 +240,13 @@ namespace Prova
         {
             Console.WriteLine("=== Aggiungi Studente ===");
             Console.Write("Inserisci l'ID dello studente: ");
-            int id = int.Parse(Console.ReadLine());
+            int id;
+            while (!int.TryParse(Console.ReadLine(), out id))
+            {
+                Console.WriteLine("Inserisci un ID valido (numero intero).");
+                Console.Write("Inserisci l'ID dello studente: ");
+            }
+
             Console.Write("Inserisci il nome dello studente: ");
             string nome = Console.ReadLine();
             Console.Write("Inserisci il cognome dello studente: ");
@@ -335,7 +364,12 @@ namespace Prova
         {
             Console.WriteLine("=== Aggiungi Insegnante ===");
             Console.Write("Inserisci l'ID dell'insegnante: ");
-            int id = int.Parse(Console.ReadLine());
+            int id;
+            while (!int.TryParse(Console.ReadLine(), out id))
+            {
+                Console.WriteLine("Inserisci un ID valido (numero intero).");
+                Console.Write("Inserisci l'ID dell'insegnante: ");
+            }
             Console.Write("Inserisci il nome dell'insegnante: ");
             string nome = Console.ReadLine();
             Console.Write("Inserisci il cognome dell'insegnante: ");
@@ -557,62 +591,125 @@ namespace Prova
             }
         }
 
+        static void ManageMaterie()
+        {
+            Console.WriteLine("=== Gestione Materie ===");
+            Console.WriteLine("1. Visualizza Materie");
+            Console.WriteLine("2. Aggiungi Materia");
+            Console.WriteLine("3. Modifica Materia");
+            Console.WriteLine("4. Cancella Materia");
+            Console.WriteLine("=======================");
+
+            Console.Write("Seleziona un'opzione: ");
+            string choice = Console.ReadLine();
+
+            Console.WriteLine();
+
+            switch (choice)
+            {
+                case "1":
+                    VisualizzaMaterie();
+                    break;
+                case "2":
+                    AggiungiMateria();
+                    break;
+                case "3":
+                    ModificaMateria();
+                    break;
+                case "4":
+                    CancellaMateria();
+                    break;
+                default:
+                    Console.WriteLine("Opzione non valida. Riprova.");
+                    break;
+            }
+        }
+
+        static void VisualizzaMaterie()
+        {
+            Console.WriteLine("=== Materie Disponibili ===");
+            foreach (var materia in materie)
+            {
+                Console.WriteLine($"ID: {materia.IDMateria}; Nome: {materia.NomeMateria}");
+            }
+        }
+
+        static void AggiungiMateria()
+        {
+            Console.WriteLine("=== Aggiungi Materia ===");
+            Console.Write("Inserisci l'ID della materia: ");
+            int id;
+            while (!int.TryParse(Console.ReadLine(), out id))
+            {
+                Console.WriteLine("Inserisci un ID valido (numero intero).");
+                Console.Write("Inserisci l'ID della materia: ");
+            }
+            Console.Write("Inserisci il nome della materia: ");
+            string nome = Console.ReadLine();
+
+            Materia nuovaMateria = new Materia(id, nome);
+            materie.Add(nuovaMateria);
+
+            Console.WriteLine("Materia aggiunta con successo.");
+        }
+
+        static void ModificaMateria()
+        {
+            Console.WriteLine("=== Modifica Materia ===");
+            Console.Write("Inserisci l'ID della materia da modificare: ");
+            int id = int.Parse(Console.ReadLine());
+
+            Materia materiaDaModificare = materie.Find(m => m.IDMateria == id);
+            if (materiaDaModificare != null)
+            {
+                Console.Write("Inserisci il nuovo nome della materia: ");
+                string nome = Console.ReadLine();
+
+                materiaDaModificare.NomeMateria = nome;
+
+                Console.WriteLine("Materia modificata con successo.");
+            }
+            else
+            {
+                Console.WriteLine("Materia non trovata.");
+            }
+        }
+
+        static void CancellaMateria()
+        {
+            Console.WriteLine("=== Cancella Materia ===");
+            Console.Write("Inserisci l'ID della materia da cancellare: ");
+            int id = int.Parse(Console.ReadLine());
+
+            Materia materiaDaCancellare = materie.Find(m => m.IDMateria == id);
+            if (materiaDaCancellare != null)
+            {
+                materie.Remove(materiaDaCancellare);
+                Console.WriteLine("Materia cancellata con successo.");
+            }
+            else
+            {
+                Console.WriteLine("Materia non trovata.");
+            }
+        }
+
         static void LoadDataFromFile()
         {
-            if (File.Exists(filePath))
+            string fileName = "school_data.json";
+            string directory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            string fullPath = Path.Combine(directory, fileName);
+
+            if (File.Exists(fullPath))
             {
                 try
                 {
-                    string[] lines = File.ReadAllLines(filePath);
+                    string jsonData = File.ReadAllText(fullPath);
+                    var data = JsonConvert.DeserializeObject<Data>(jsonData);
 
-                    foreach (string line in lines)
-                    {
-                        string[] parts = line.Split(';');
-
-                        if (parts[0] == "Classe")
-                        {
-                            int id = int.Parse(parts[1]);
-                            string nome = parts[2];
-
-                            Classe classe = new Classe(id, nome);
-                            classi.Add(classe);
-                        }
-                        else if (parts[0] == "Studente")
-                        {
-                            int id = int.Parse(parts[1]);
-                            string nome = parts[2];
-                            string cognome = parts[3];
-                            DateOnly dataNascita = DateOnly.Parse(parts[4]);
-                            int annoCorso = int.Parse(parts[5]);
-                            string nomeClasse = parts[6];
-
-                            Studente studente = new Studente(id, nome, cognome, dataNascita, annoCorso, nomeClasse);
-                            studenti.Add(studente);
-                        }
-                        else if (parts[0] == "Insegnante")
-                        {
-                            int id = int.Parse(parts[1]);
-                            string nome = parts[2];
-                            string cognome = parts[3];
-                            string nomeClasse = parts[4];
-                            string nomeMateria = parts[5];
-                            int idMateria = int.Parse(parts[6]);
-
-                            Insegnante insegnante = new Insegnante(id, nome, cognome, nomeClasse, nomeMateria, idMateria);
-                            insegnanti.Add(insegnante);
-                        }
-                        else if (parts[0] == "Valutazione")
-                        {
-                            int id = int.Parse(parts[1]);
-                            float voto = float.Parse(parts[2]);
-                            float media = float.Parse(parts[3]);
-                            int idMateria = int.Parse(parts[4]);
-                            int idStudente = int.Parse(parts[5]);
-
-                            Valutazione valutazione = new Valutazione(id, voto, media, idMateria, idStudente);
-                            valutazioni.Add(valutazione);
-                        }
-                    }
+                    classi = data.Classi;
+                    studenti = data.Studenti;
+                    insegnanti = data.Insegnanti;
+                    valutazioni = data.Valutazioni;
 
                     Console.WriteLine("Dati caricati con successo.");
                 }
@@ -629,35 +726,22 @@ namespace Prova
 
         static void SaveDataToFile()
         {
+            string fileName = "school_data.json";
+            string directory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            string fullPath = Path.Combine(directory, fileName);
+
             try
             {
-                List<string> lines = new List<string>();
-
-                foreach (var classe in classi)
+                var data = new Data()
                 {
-                    string line = $"Classe;{classe.IDClasse};{classe.NomeClasse};";
-                    lines.Add(line);
-                }
+                    Classi = classi,
+                    Studenti = studenti,
+                    Insegnanti = insegnanti,
+                    Valutazioni = valutazioni
+                };
 
-                foreach (var studente in studenti)
-                {
-                    string line = $"Studente;{studente.IDStudente};{studente.Nome};{studente.Cognome};{studente.DataNascita};{studente.AnnoCorso};{studente.NomeClasse}";
-                    lines.Add(line);
-                }
-
-                foreach (var insegnante in insegnanti)
-                {
-                    string line = $"Insegnante;{insegnante.IDInsegnante};{insegnante.Nome};{insegnante.Cognome};{insegnante.NomeClasse};{insegnante.NomeMateria};{insegnante.IDMateria}";
-                    lines.Add(line);
-                }
-
-                foreach (var valutazione in valutazioni)
-                {
-                    string line = $"Valutazione;{valutazione.IDValutazione};{valutazione.Voto};{valutazione.Media};{valutazione.IDMateria};{valutazione.IDStudente}";
-                    lines.Add(line);
-                }
-
-                File.WriteAllLines(filePath, lines);
+                string jsonData = JsonConvert.SerializeObject(data, Formatting.Indented);
+                File.WriteAllText(fullPath, jsonData);
 
                 Console.WriteLine("Dati salvati con successo.");
             }
