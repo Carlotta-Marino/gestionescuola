@@ -27,6 +27,9 @@ namespace Gestione
         [JsonProperty("NomeClasse")]
         public string NomeClasse { get; set; }
 
+        [JsonProperty("ValutazioneMedia")]
+        public float ValutazioneMedia { get; set; }
+
         public Studente(int id, string nome, string cognome, DateOnly dataNascita, int annoCorso, string nomeClasse)
         {
             IDStudente = id;

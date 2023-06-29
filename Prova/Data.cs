@@ -8,5 +8,7 @@ namespace Gestione
         public List<Studente> Studenti { get; set; }
         public List<Insegnante> Insegnanti { get; set; }
         public List<Valutazione> Valutazioni { get; set; }
-    }
+        public List<Materia> Materie { get; set; }
+
+}
 }

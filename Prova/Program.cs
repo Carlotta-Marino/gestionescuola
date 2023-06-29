@@ -492,16 +492,74 @@ namespace Gestione
             Console.Write("Inserisci il voto: ");
             float voto = float.Parse(Console.ReadLine());
 
-            // Calcola la media aggiornata
-            float media = CalcolaMedia(idStudente, idMateria, voto);
+            // Controllo per il limite massimo del voto
+            if (voto > 100)
+            {
+                voto = 100;
+                Console.WriteLine("Il voto inserito supera il limite massimo consentito. Verrà assegnato il valore massimo (100).");
+            }
 
-            Valutazione nuovaValutazione = new Valutazione(valutazioni.Count + 1, voto, media, idMateria, idStudente);
+            Valutazione nuovaValutazione = new Valutazione(valutazioni.Count + 1, voto, 0, idMateria, idStudente);
             valutazioni.Add(nuovaValutazione);
+
+            AggiornaMediaValutazioni(idStudente, idMateria);
 
             Console.WriteLine("Voto aggiunto con successo.");
         }
 
-        static void ModificaVoto()
+        static void AggiornaMediaValutazioni(int idStudente, int idMateria)
+        {
+            List<Valutazione> valutazioniStudenteMateria = valutazioni.FindAll(v => v.IDStudente == idStudente && v.IDMateria == idMateria);
+
+            float sommaVoti = 0;
+            int numeroValutazioni = 0;
+
+            foreach (var valutazione in valutazioniStudenteMateria)
+            {
+                sommaVoti += valutazione.Voto;
+                numeroValutazioni++;
+            }
+
+            if (numeroValutazioni > 0)
+            {
+                float media = sommaVoti / numeroValutazioni;
+
+                foreach (var valutazione in valutazioniStudenteMateria)
+                {
+                    valutazione.Media = media;
+                }
+
+                AggiornaMediaStudente(idStudente);
+            }
+        }
+
+        static void AggiornaMediaStudente(int idStudente)
+        {
+            List<Valutazione> valutazioniStudente = valutazioni.FindAll(v => v.IDStudente == idStudente);
+
+            float sommaMedie = 0;
+            int numeroMaterie = 0;
+
+            foreach (var valutazione in valutazioniStudente)
+            {
+                sommaMedie += valutazione.Media;
+                numeroMaterie++;
+            }
+
+            if (numeroMaterie > 0)
+            {
+                float mediaStudente = sommaMedie / numeroMaterie;
+
+                Studente studente = studenti.Find(s => s.IDStudente == idStudente);
+                if (studente != null)
+                {
+                    studente.ValutazioneMedia = mediaStudente;
+                }
+            }
+        }
+
+
+    static void ModificaVoto()
         {
             Console.WriteLine("=== Modifica Voto ===");
             Console.Write("Inserisci l'ID del voto da modificare: ");
@@ -515,6 +573,7 @@ namespace Gestione
 
                 // Calcola la media aggiornata
                 float media = CalcolaMedia(votoDaModificare.IDStudente, votoDaModificare.IDMateria, nuovoVoto);
+                AggiornaMediaValutazioni(votoDaModificare.IDStudente, media);
 
                 votoDaModificare.Voto = nuovoVoto;
                 votoDaModificare.Media = media;
@@ -538,11 +597,10 @@ namespace Gestione
             {
                 valutazioni.Remove(votoDaCancellare);
 
-                // Ricalcola la media dopo la cancellazione del voto
-                float media = CalcolaMedia(votoDaCancellare.IDStudente, votoDaCancellare.IDMateria);
-
                 // Aggiorna la media in tutte le valutazioni dello studente e materia
-                AggiornaMedia(votoDaCancellare.IDStudente, votoDaCancellare.IDMateria, media);
+                float media = CalcolaMedia(votoDaCancellare.IDStudente, votoDaCancellare.IDMateria);
+                AggiornaMediaStudente(votoDaCancellare.IDStudente, media);
+                AggiornaMediaValutazioni(votoDaCancellare.IDStudente, media);
 
                 Console.WriteLine("Voto cancellato con successo.");
             }
@@ -554,37 +612,54 @@ namespace Gestione
 
         static float CalcolaMedia(int idStudente, int idMateria, float nuovoVoto = 0)
         {
-            float sommaVoti = 0;
+            float sommaVoti = nuovoVoto;
             int numeroValutazioni = 0;
+            bool trovato = false;
 
             foreach (var valutazione in valutazioni)
             {
                 if (valutazione.IDStudente == idStudente && valutazione.IDMateria == idMateria)
                 {
-                    if (valutazione.IDValutazione != valutazioni.Count + 1)
-                    {
-                        sommaVoti += valutazione.Voto;
-                        numeroValutazioni++;
-                    }
-                    else
-                    {
-                        sommaVoti += nuovoVoto;
-                        numeroValutazioni++;
-                    }
+                    sommaVoti += valutazione.Voto;
+                    numeroValutazioni++;
+                    trovato = true;
                 }
             }
 
+            if (!trovato && nuovoVoto != 0)
+            {
+                sommaVoti += nuovoVoto;
+                numeroValutazioni++;
+                valutazioni.Add(new Valutazione(valutazioni.Count + 1, nuovoVoto, 0, idMateria, idStudente));
+            }
+
             if (numeroValutazioni > 0)
-                return sommaVoti / numeroValutazioni;
+            {
+                float media = sommaVoti / numeroValutazioni;
+                AggiornaMediaStudente(idStudente, media); // Aggiorna la media complessiva dello studente
+                AggiornaMediaValutazioni(idStudente, media); // Aggiorna la media in tutte le valutazioni dello studente e materia
+                return media;
+            }
 
             return 0;
         }
 
-        static void AggiornaMedia(int idStudente, int idMateria, float nuovaMedia)
+
+    static void AggiornaMediaStudente(int idStudente, float nuovaMedia)
+        {
+            Studente studente = studenti.Find(s => s.IDStudente == idStudente);
+            if (studente != null)
+            {
+                studente.ValutazioneMedia = nuovaMedia;
+                AggiornaMediaValutazioni(idStudente, nuovaMedia);
+            }
+        }
+
+        static void AggiornaMediaValutazioni(int idStudente, float nuovaMedia)
         {
             foreach (var valutazione in valutazioni)
             {
-                if (valutazione.IDStudente == idStudente && valutazione.IDMateria == idMateria)
+                if (valutazione.IDStudente == idStudente)
                 {
                     valutazione.Media = nuovaMedia;
                 }

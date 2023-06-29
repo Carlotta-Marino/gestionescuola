@@ -9,16 +9,14 @@ namespace Gestione
 {
     internal class Classe
     {
-        [JsonProperty("IDClasse")]
         public int IDClasse { get; set; }
-
-        [JsonProperty("NomeClasse")]
         public string NomeClasse { get; set; }
 
-        public Classe(int id, string nome)
+        public Classe(int idClasse, string nomeClasse)
         {
-            IDClasse = id;
-            NomeClasse = nome;
+            IDClasse = idClasse;
+            NomeClasse = nomeClasse;
         }
     }
 }
+
