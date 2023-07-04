@@ -18,6 +18,15 @@
       "AnnoCorso": 1,
       "NomeClasse": "Prima",
       "ValutazioneMedia": 0.0
+    },
+    {
+      "IDStudente": 2,
+      "Nome": "Rossi",
+      "Cognome": "Malpelo",
+      "DataNascita": "1980-01-01",
+      "AnnoCorso": 1,
+      "NomeClasse": "Prima",
+      "ValutazioneMedia": 45.0
     }
   ],
   "Insegnanti": [
@@ -59,6 +68,13 @@
       "Media": 45.0,
       "IDMateria": 2,
       "IDStudente": 1
+    },
+    {
+      "IDValutazione": 4,
+      "Voto": 45.0,
+      "Media": 45.0,
+      "IDMateria": 1,
+      "IDStudente": 2
     }
   ],
   "Materie": null
